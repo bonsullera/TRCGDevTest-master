@@ -1,0 +1,151 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TRCG LLC. Mobile</title>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.min.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.min.css" />
+    </environment>
+</head>
+<body>
+    <div id="showError" title="Error" style="display:none;">
+        <p>
+            <span class="ui-icon ui-icon-info" style="float: left; margin: 0 7px 50px 0;"></span>
+            <span id="errorMessage"></span>
+        </p>
+    </div>
+
+    <div id="noConnection" title="Connection Disrupted" style="display:none;">
+        <p>
+            <span class="ui-icon ui-icon-info" style="float: left; margin: 0 7px 50px 0;"></span>
+            <span id="connectionBroke">The connection to the server has been interrupted.</span>
+        </p>
+    </div>
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">
+                    <img src="/images/TRCG_Logo_New_Yellow_Ball_Cropped.jpg" height="77" width="200" style="margin-top:10px;" />
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a class="hrefNavLink" href="./Home" >Dev Test</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="divContent" class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2019 - TRCG Dev Test</p>
+        </footer>
+    </div>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/"></script>
+
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        function Init() {
+            try {
+                $('.hrefNavLink').mouseover(function () {
+                    $(this).css("font-weight", "bold");
+                });
+
+                $('.hrefNavLink').mouseout(function () {
+                    $(this).css("font-weight", "normal");
+                });
+
+                $('#hrefUserInfo').mouseover(function () {
+                    $("#showUserInfo").dialog("open");
+                    $
+                });
+
+                $('#hrefUserInfo').mouseout(function () {
+                    $("#showUserInfo").dialog("close");
+                });
+
+                $("#showUserInfo").dialog({
+                    modal: false,
+                    autoOpen: false,
+                    position: { my: "right", at: "bottom+50", of: $('#hrefUserInfo') },
+                });
+
+                $("#showError").dialog({
+                    modal: true,
+                    position: { my: "top", at: "center", of: $('#divContent') },
+                    autoOpen: false,
+                    closeOnEscape: false,
+                    buttons: {
+                        Ok: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                }).prev(".ui-dialog-titlebar").css("background", "red");
+
+
+                $("#noConnection").dialog({
+                    modal: true,
+                    position: { my: "top", at: "center", of: $('#divContent') },
+                    autoOpen: false,
+                    closeOnEscape: false,
+                }).prev(".ui-dialog-titlebar").css("background", "red");
+
+
+                $(".ui-dialog").removeClass("ui-corner-all");
+                $(".ui-dialog").css("z-index", "10000");
+                $(".ui-dialog-titlebar").removeClass("ui-corner-all");
+                $(".ui-dialog-titlebar-close").hide();
+
+
+            } catch (e) {
+                console.log(e.message);
+                console.log(e.stack);
+            }
+        }
+
+        $(document).ready(function () {
+            try {
+                Init();
+            } catch (e) {
+                console.log(e.message);
+            }
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Customers ";
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        function noeffect() { }
+
+        function CustomerInit() {
+            $("#tblCustomers tbody").empty();
+
+            $("#customerInfo").dialog({
+                modal: true,
+                position: { my: "top", at: "center", of: $('#divContent') },
+                autoOpen: false,
+                closeOnEscape: false,
+                width:400,
+                buttons: {
+                    Save: function () {
+                        SaveCustomer();
+                        $(this).dialog("close");
+                    },
+                    Close: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+            $(".ui-dialog").removeClass("ui-corner-all");
+            $(".ui-dialog-titlebar").removeClass("ui-corner-all");
+            $(".ui-dialog-titlebar-close").hide();
+
+            GetCustomers();
+            GetCategories();
+        }
+
+        $(document).ready(function () {
+            try {
+                CustomerInit();
+            } catch (e) {
+                console.log(e.message);
+            }
+        });
+    </script>
+}
+
+
+<div class="row" style="padding-top:70px;">
+    <div class="col-md-12">
+        <table id="tblCustomers" class="table table-responsive table-striped table-hover table-condensed" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Customer no</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div id="customerInfo" title="Edit Customer Information" style="display:none; overflow-y:hidden; overflow-x:hidden;">
+    <input type="hidden" id="hdnCustomerID" />
+    <div class="row">
+        <div class="panel-body">
+            <div class="col-md-4" style="text-align:center;">
+                <label style="font-weight:bold;" for="txtFirstName">First Name: </label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" id="txtFirstName" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel-body">
+            <div class="col-md-4" style="text-align:center;">
+                <label style="font-weight:bold;" for="txtLastName">Last Name: </label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" id="txtLastName" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+            <div class="panel-body">
+                <div class="col-md-4" style="text-align:center;">
+                    <label style="font-weight:bold;" for="ddCategory">Category: </label>
+                </div>
+                <div class="col-md-8">
+                    <select id="ddCategory" name="ddCategory">
+                    </select>
+                </div>
+            </div>
+        </div>
+</div>
+
+
